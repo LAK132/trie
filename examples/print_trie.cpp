@@ -8,16 +8,26 @@ void print_trie(const lak::trie<T> &trie, std::string key = "");
 template<typename T>
 void print_trie(const lak::trie<T> &trie, std::string key)
 {
+#if 0
   key += "(\"" + trie.key() + "\")";
-  if (trie.value())
-  {
-    std::cout << key << ":" << *trie.value() << "\n";
-  }
+
+  if (trie.value()) std::cout << key << ":" << *trie.value() << "\n";
+
   for (size_t i = 0; i < trie.nodes().size(); ++i)
   {
     print_trie(trie.nodes().at(i),
                (key.empty() ? "'" : key + "+'") + trie.map().at(i) + "'->");
   }
+#else
+  key += trie.key();
+
+  if (trie.value()) std::cout << key << ":" << *trie.value() << "\n";
+
+  for (size_t i = 0; i < trie.nodes().size(); ++i)
+  {
+    print_trie(trie.nodes().at(i), key + trie.map().at(i));
+  }
+#endif
 }
 
 int main()
