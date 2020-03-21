@@ -42,7 +42,7 @@ int main()
   print_trie(trie);
   std::cout << "\n\n";
 
-  trie["long long"] = "seventh";
+  trie["long long"].value() = "seventh";
   print_trie(trie);
   std::cout << "\n\n";
 

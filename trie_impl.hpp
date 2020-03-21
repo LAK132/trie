@@ -36,7 +36,21 @@ namespace lak
   }
 
   template<typename T>
-  T& trie<T>::operator[](const std::string& key)
+  trie<T> *trie<T>::find(const std::string &key)
+  {
+    auto [node, remaining_key] = find(this, key);
+    return remaining_key == node->_key ? node : nullptr;
+  }
+
+  template<typename T>
+  const trie<T> *trie<T>::find(const std::string &key) const
+  {
+    auto [node, remaining_key] = find(this, key);
+    return remaining_key == node->_key ? node : nullptr;
+  }
+
+  template<typename T>
+  trie<T> &trie<T>::find_or_emplace(const std::string &key)
   {
     auto [node, remaining_key] = find(this, key);
 
@@ -50,18 +64,13 @@ namespace lak
     assert(remaining_key == node->_key);
     assert(node->_value);
 
-    return *node->_value;
+    return *node;
   }
 
   template<typename T>
-  const T& trie<T>::operator[](const std::string& key) const
+  trie<T> &trie<T>::operator[](const std::string& key)
   {
-    auto [node, remaining_key] = find(this, key);
-
-    assert(remaining_key == node->_key);
-    assert(node->_value);
-
-    return *node->_value;
+    return find_or_emplace(key);
   }
 
   template<typename T>

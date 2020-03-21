@@ -15,25 +15,34 @@ namespace lak
     trie() = default;
 
     const std::string &key() const { return _key; }
-
     const std::string &map() const { return _map; }
-
     const std::vector<trie> &nodes() const { return _nodes; }
 
+    // Value of this node.
     std::optional<T> &value();
     const std::optional<T> &value() const;
 
-    T& operator[](const std::string& key);
+    // Find the node for key.
+    trie *find(const std::string &key);
+    const trie *find(const std::string &key) const;
 
-    const T& operator[](const std::string& key) const;
+    // Find the node for key, or create one.
+    trie &find_or_emplace(const std::string &key);
+    trie &operator[](const std::string &key);
 
+    // Default construct a T at key if it does not already exist.
     void try_emplace(const std::string &key);
 
+    // Construct a T with args at key if it does not already exist.
     template<typename ...ARGS>
     void try_emplace(const std::string &key, ARGS &&...args);
 
+    // Default construct a T at key, destroying the previous T if it already
+    // existed.
     void force_emplace(const std::string &key);
 
+    // Construct a T with args at key, destroying the previous T if it already
+    // existed.
     template<typename ...ARGS>
     void force_emplace(const std::string &key, ARGS &&...args);
 
