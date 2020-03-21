@@ -1,16 +1,18 @@
 CXX = g++-8
 CXXFLAGS += -no-pie -Wall -Werror -Wfatal-errors -pthread -std=c++17
 
-SRCDIR = src
+SRCDIR = examples
 BINDIR = bin
 OBJDIR = obj
 
-$(BINDIR)/example.elf: $(OBJDIR)/main.o | $(BINDIR)
+CXXFLAGS += -I./
+
+$(BINDIR)/print_trie.elf: $(OBJDIR)/print_trie.o | $(BINDIR)
 	$(CXX) $(CXXFLAGS) -o $@ $^ && chmod +x $@
 
-.PHONY: $(BINDIR)/example.elf
+.PHONY: $(BINDIR)/print_trie.elf
 
-$(OBJDIR)/main.o: $(SRCDIR)/main.cpp | $(OBJDIR)
+$(OBJDIR)/print_trie.o: $(SRCDIR)/print_trie.cpp trie.hpp trie_impl.hpp Makefile | $(OBJDIR)
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 $(BINDIR):
